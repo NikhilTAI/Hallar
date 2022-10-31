@@ -3,29 +3,38 @@ const express = require('express');
 const morgan = require('morgan');
 const cookieParser = require('cookie-parser');
 const createError = require('http-errors');
-// const cors = require('cors');
+const i18n = require('i18next');
+const i18nFsBackend = require('i18next-node-fs-backend');
+const i18nMiddleware = require('i18next-http-middleware');
 
 const globalErrorHandler = require('./controllers/errorController.js');
 
 // Start express app
 const app = express();
 
-app.enable('trust proxy');
+// multilingual
+i18n.use(i18nFsBackend)
+    .use(i18nMiddleware.LanguageDetector)
+    .init({
+        backend: {
+            loadPath: __dirname + '/locales/{{lng}}.json',
+        },
+        fallbackLng: 'en',
+        lowerCaseLng: true,
+        preload: ['en', 'fr'],
+        saveMissing: true,
+    });
+
+app.use(
+    i18nMiddleware.handle(i18n, {
+        removeLngFromUrl: false,
+    })
+);
 
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
 // 1) GLOBAL MIDDLEWARES
-// Implement CORS
-// app.use(cors());
-// Access-Control-Allow-Origin *
-// api.natours.com, front-end natours.com
-// app.use(cors({
-//   origin: 'https://www.natours.com'
-// }))
-
-// app.options('*', cors());
-// app.options('/api/v1/tours/:id', cors());
 
 // Serving static files
 app.use(express.static(path.join(__dirname, 'public')));
@@ -33,9 +42,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser(process.env.SESSION_SECRET));
-
-// Set security HTTP headers
-// app.use(helmet());
 
 // Development logging
 if (process.env.NODE_ENV === 'development') {
@@ -67,29 +73,39 @@ app.use(function (req, res, next) {
     next();
 });
 
-// 2) ROUTES
+// test multilingual
+app.get('/api/test', (req, res) => {
+    res.send(req.t('test'));
+});
+
+// 2) API ROUTES
 // app.use('/api/tours', tourRouter);
+
+// 404 api
+app.all('/api/*', (req, res, next) => {
+    if (req.originalUrl.startsWith('/app-assets'))
+        return res.status(404).send();
+    next(createError.NotFound(`Can't find ${req.originalUrl} on this server!`));
+});
+
+// 3) ADMIN ROUTES
 app.use(function (req, res, next) {
     res.locals.url = req.originalUrl;
     next();
 });
-app.use('/', require('./routes/admin/adminAuthRoutes'));
 
-// 3) ERROR HANDLING
+app.use('/user', require('./routes/admin/userRoutes'));
+app.use('/', require('./routes/admin/authRoutes'));
+
+// 4) ERROR HANDLING
 // 404 uploads
 app.all('/uploads/*', (req, res) => {
     res.status(404).send();
 });
 
-// 404 api
-app.all('/api/*', (req, res, next) => {
-    if (req.originalUrl.startsWith('/app-assets')) return;
-    next(createError.NotFound(`Can't find ${req.originalUrl} on this server!`));
-});
-
 // 404 admin
 app.all('/*', (req, res) => {
-    res.status(404).render("404", { message: `Page not found!` });
+    res.status(404).render('404', { message: `Page not found!` });
 });
 
 app.use(globalErrorHandler);

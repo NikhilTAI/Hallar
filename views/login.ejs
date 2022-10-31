@@ -7,7 +7,8 @@
     <title>Login | Hallar</title>
     <link rel="stylesheet" type="text/css" href="/app-assets/css/pages/login.css">
 </head>
- <!-- END:  -->
+<!-- END:  -->
+
 <body class="vertical-layout page-header-light vertical-menu-collapsible vertical-dark-menu preload-transitions 1-column login-bg blank-page blank-page" data-open="click" data-menu="vertical-dark-menu" data-col="1-column">
     <div class="row">
         <div class="col s12">
@@ -21,13 +22,15 @@
                                 </div>
                             </div>
                             <%- messages('messages', locals) %>
-                           
+
                             <div class="row margin">
                                 <div class="input-field col s12">
                                     <i class="material-icons prefix pt-2">person_outline</i>
                                     <input id="email" type="text" name="email">
                                     <label for="email" class="center-align">Email</label>
-                                    <small><div id="error1" class="error" style="margin-left: 3rem;"></div></small>
+                                    <small>
+                                        <div id="error1" class="error" style="margin-left: 3rem;"></div>
+                                    </small>
                                 </div>
                             </div>
                             <div class="row margin">
@@ -35,7 +38,9 @@
                                     <i class="material-icons prefix pt-2">lock_outline</i>
                                     <input id="pass" type="password" name="password">
                                     <label for="pass">Password</label>
-                                    <small><div id="error2" class="error" style="margin-left: 3rem;"></div></small>
+                                    <small>
+                                        <div id="error2" class="error" style="margin-left: 3rem;"></div>
+                                    </small>
                                 </div>
                             </div>
                             <div class="row">
@@ -53,11 +58,12 @@
 
     <script>
         const form = document.getElementById('loginform');
-        
+
         // form
         form.addEventListener('submit', (e) => {
             e.preventDefault();
         })
+
         function validate() {
             let returnVal = true;
 
@@ -80,8 +86,8 @@
             if (passwordValue == '') {
                 document.getElementById('error2').innerText = 'Please enter password.';
                 returnVal = false;
-            } else if (passwordValue.length < 6) {
-                document.getElementById('error2').innerText = 'Password should atleast 6 characters long.';
+            } else if (passwordValue.length < 8) {
+                document.getElementById('error2').innerText = 'Password should atleast 8 characters long.';
                 returnVal = false;
             } else {
                 document.getElementById('error2').innerText = '';

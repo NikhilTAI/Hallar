@@ -1,39 +1,42 @@
 module.exports = (error, req, res, next) => {
-    console.log(error);
+    // console.log(error);
 
-    if (error.name === "ValidationError") {
+    if (error.name === 'ValidationError') {
         let errors = {};
-        Object.keys(error.errors).forEach((key) => {
+        Object.keys(error.errors).forEach(key => {
             errors[key] = error.errors[key].message;
             // errors[key] = req.t(error.errors[key].message);
         });
         return res.status(400).send({
-            status: "fail",
-            errors
+            status: 'fail',
+            errors,
         });
     }
 
-    if (error.name == "BadRequestError" && error.message.errors) {
+    if (error.name == 'BadRequestError' && error.message.errors) {
         let errors = {};
-        Object.keys(error.message.errors).forEach((key) => {
+        Object.keys(error.message.errors).forEach(key => {
             let myKey = key;
             if (myKey.includes('.')) myKey = myKey.split('.').pop();
             errors[myKey] = error.message.errors[key].message;
             // errors[myKey] = req.t(error.message.errors[key].message);
         });
         return res.status(400).send({
-            status: "fail",
-            errors
+            status: 'fail',
+            errors,
         });
     }
 
-    if (error.message.toString().includes(': ') && error.name == "BadRequestError") {
+    if (
+        error.message.toString().includes(': ') &&
+        error.name == 'BadRequestError'
+    ) {
         error.message = error.message.toString().split(': ').pop();
         // console.log(error.message);
     }
     res.status(error.status || 500).json({
-        status: "fail",
+        status: 'fail',
         message: error.message,
         // message: req.t(error.message),
-    })
-}
+    });
+};

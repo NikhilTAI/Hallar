@@ -10,10 +10,10 @@ const adminSchema = new mongoose.Schema({
     },
     email: {
         type: String,
-        required: [true, 'Please provide your email'],
+        required: [true, 'Please provide your email.'],
         unique: true,
         lowercase: true,
-        validate: [validator.isEmail, 'Please provide a valid email'],
+        validate: [validator.isEmail, 'Please provide a valid email.'],
     },
     photo: {
         type: String,
@@ -21,19 +21,18 @@ const adminSchema = new mongoose.Schema({
     },
     password: {
         type: String,
-        required: [true, 'Please provide a password'],
-        minlength: 8,
-        select: false,
+        required: [true, 'Please provide a password.'],
+        minlength: [8, 'Password should be minimum 8 characters long.'],
     },
     passwordConfirm: {
         type: String,
-        required: [true, 'Please confirm your password'],
+        required: [true, 'Please confirm your password.'],
         validate: {
             // This only works on CREATE and SAVE!!!
             validator: function (el) {
                 return el === this.password;
             },
-            message: 'Passwords are not the same!',
+            message: 'New password and confirm password do not match!',
         },
     },
 });

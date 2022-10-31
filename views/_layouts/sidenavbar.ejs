@@ -62,13 +62,23 @@
             <div class="collapsible-body">
                 <ul class="collapsible collapsible-sub" data-collapsible="accordion">
                     <li>
-                        <a class="<%= url.startsWith('/cms/privacy_policy') ? 'active' : '' %>" href="/cms/privacy_policy">
+                        <a class="<%= url.startsWith('/cms/privacy_policy') ? 'active' : '' %>" href="/cms/terms">
                             <i class="material-icons">radio_button_unchecked</i>
-                            <span data-i18n="Blog">Privacy Policy</span>
+                            <span data-i18n="Blog">Terms & Conditions</span>
                         </a>
                     </li>
                 </ul>
             </div>
+        </li>
+        <li class="navigation-header">
+            <a class="navigation-header-text">Users</a>
+            <i class="navigation-header-icon material-icons">more_horiz</i>
+        </li>
+        <li class="bold">
+            <a class="waves-effect waves-cyan <%= url.startsWith('/user') ? 'active' : '' %>" href="/user">
+                <i class="material-icons">person</i>
+                <span class="menu-title">User Management</span>
+            </a>
         </li>
     </ul>
     <div class="navigation-background"></div><a class="sidenav-trigger btn-sidenav-toggle btn-floating btn-medium waves-effect waves-light hide-on-large-only" href="#" data-target="slide-out"><i class="material-icons">menu</i></a>
