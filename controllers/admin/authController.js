@@ -66,7 +66,7 @@ exports.getLogin = async (req, res) => {
     }
 };
 
-exports.postLogin = async (req, res, next) => {
+exports.postLogin = async (req, res) => {
     try {
         const { email, password } = req.body;
         const admin = await Admin.findOne({ email });
@@ -112,7 +112,7 @@ exports.postChangePass = async (req, res) => {
             return res.redirect(req.originalUrl);
         }
 
-        const admin = await Admin.findOne();
+        const admin = await Admin.findOne({ email: req.admin.email });
 
         if (!(await admin.correctPassword(currentpass, admin.password))) {
             req.flash('red', 'Your current password is wrong.');

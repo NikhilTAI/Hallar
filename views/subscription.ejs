@@ -4,7 +4,7 @@
 
 <head>
     <%- include('_layouts/head') %>
-    <title>User List | Hallar</title>
+    <title>Subscriptions | Hallar</title>
     <link rel="stylesheet" type="text/css" href="/app-assets/vendors/data-tables/css/jquery.dataTables.min.css">
     <link rel="stylesheet" type="text/css" href="/app-assets/vendors/data-tables/extensions/responsive/css/responsive.dataTables.min.css">
     <link rel="stylesheet" type="text/css" href="/app-assets/vendors/data-tables/css/select.dataTables.min.css">
@@ -24,13 +24,10 @@
                 <div class="container">
                     <div class="row">
                         <div class="col s12 m6 l6">
-                            <h5 class="breadcrumbs-title mt-0 mb-0"><span>User</span></h5>
+                            <h5 class="breadcrumbs-title mt-0 mb-0"><span>Subscriptions</span></h5>
                         </div>
                         <div class="col s12 m6 l6 right-align-md">
-                            <ol class="breadcrumbs mb-0">
-                                <li class="breadcrumb-item"><a href="/">Home</a></li>
-                                <li class="breadcrumb-item active">User</li>
-                            </ol>
+                            <a class="btn gradient-45deg-purple-deep-orange pull-right btn-breadcrumbs" href="/subscription/add">Add subscription</a>
                         </div>
                     </div>
                 </div>
@@ -50,29 +47,24 @@
                                                     <thead>
                                                         <tr>
                                                             <th>Sr</th>
-                                                            <th>Avatar</th>
-                                                            <th>User Name</th>
-                                                            <th>Phone</th>
-                                                            <th>Email</th>
-                                                            <th>View</th>
+                                                            <th>Image</th>
+                                                            <th>Description</th>
+                                                            <th>Price</th>
+                                                            <th>Validity</th>
                                                             <th>Action</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        <% for( let i=0; i < users.length; i++ ) { %>
+                                                        <% for( let i=0; i < subscriptions.length; i++ ) { %>
                                                         <tr>
                                                             <td><%= i+1 %></td>
-                                                            <td><img src="<%= users[i].photo %>" alt="IMG" height="64" onerror="this.onerror=null; this.src='/uploads/default_user.jpg';"></td>
-                                                            <td><%= users[i].name %></td>
-                                                            <td><%= users[i].phone %></td>
-                                                            <td><%= users[i].email %></td>
-                                                            <td style="max-width: 50px;"><a href="/user/<%= users[i].id %>"><i class="material-icons">remove_red_eye</i></a></td>
-                                                            <td>
-                                                                <% if (users[i].blocked) { %>
-                                                                <a href="/user/unblock/<%= users[i].id %>" class="waves-effect border-round waves-light btn gradient-45deg-green-teal mr-1 mb-2" onclick="return confirm('Are you sure want to unblock this user?');">unblock</a>
-                                                                <% } else { %>
-                                                                <a href="/user/block/<%= users[i].id %>" class="waves-effect border-round waves-light btn gradient-45deg-red-pink mr-1 mb-2" onclick="return confirm('Are you sure want to block this user?');">block</a>
-                                                                <% } %>
+                                                            <td><img src="<%= subscriptions[i].image %>" alt="IMG" height="64" onerror="this.onerror=null; this.src='/uploads/no_image_available.jpg';"></td>
+                                                            <td style="max-width: 300px; overflow: hidden; text-overflow: ellipsis;"><%= subscriptions[i].en.description %></td>
+                                                            <td><%= subscriptions[i].price %></td>
+                                                            <td><%= subscriptions[i].validity + " " + subscriptions[i].period %></td>
+                                                            <td style="max-width: 70px;">
+                                                                <a href="/subscription/edit/<%= subscriptions[i].id %>"><i class="material-icons">create</i></a>
+                                                                <a href="/subscription/delete/<%= subscriptions[i].id %>" onclick="return confirm('Are you sure?')"><i class="material-icons">delete</i></a>
                                                             </td>
                                                         </tr>
                                                         <% } %>

@@ -62,13 +62,19 @@
             <div class="collapsible-body">
                 <ul class="collapsible collapsible-sub" data-collapsible="accordion">
                     <li>
-                        <a class="<%= url.startsWith('/cms/privacy_policy') ? 'active' : '' %>" href="/cms/terms">
+                        <a class="<%= url == '/cms/terms' ? 'active' : '' %>" href="/cms/terms">
                             <i class="material-icons">radio_button_unchecked</i>
                             <span data-i18n="Blog">Terms & Conditions</span>
                         </a>
                     </li>
                 </ul>
             </div>
+        </li>
+        <li class="bold">
+            <a class="waves-effect waves-cyan <%= url.startsWith('/subscription') ? 'active' : '' %>" href="/subscription">
+                <i class="material-icons">subscriptions</i>
+                <span class="menu-title">Subscriptions</span>
+            </a>
         </li>
         <li class="navigation-header">
             <a class="navigation-header-text">Users</a>

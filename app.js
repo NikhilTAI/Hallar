@@ -79,7 +79,7 @@ app.get('/api/test', (req, res) => {
 });
 
 // 2) API ROUTES
-// app.use('/api/tours', tourRouter);
+app.use('/api/', require('./routes/api/userRoutes'));
 
 // 404 api
 app.all('/api/*', (req, res, next) => {
@@ -94,6 +94,8 @@ app.use(function (req, res, next) {
     next();
 });
 
+app.use('/cms', require('./routes/admin/cmsRoutes'));
+app.use('/subscription', require('./routes/admin/subscriptionRoutes'));
 app.use('/user', require('./routes/admin/userRoutes'));
 app.use('/', require('./routes/admin/authRoutes'));
 
