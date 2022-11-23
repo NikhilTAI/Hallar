@@ -73,12 +73,9 @@ app.use(function (req, res, next) {
     next();
 });
 
-// test multilingual
-app.get('/api/test', (req, res) => {
-    res.send(req.t('test'));
-});
-
 // 2) API ROUTES
+app.use('/api/', require('./routes/api/authRoutes'));
+app.use('/api/', require('./routes/api/profileRoutes'));
 app.use('/api/', require('./routes/api/userRoutes'));
 
 // 404 api

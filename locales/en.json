@@ -1,3 +1,4 @@
 {
-    "test": "Hello World"
+    "test": "Hello World",
+    "notRegistered": "Phone number is not registered."
 }

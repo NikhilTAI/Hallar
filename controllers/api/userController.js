@@ -16,7 +16,7 @@ exports.getTerms = async (req, res, next) => {
 
 exports.getSubscriptions = async (req, res, next) => {
     try {
-        let subscriptions = await Subscription.find();
+        let subscriptions = await Subscription.find().select('-__v');
         subscriptions = subscriptions.map(el => multilingual(el, req));
         res.json({ status: 'success', subscriptions });
     } catch (error) {

@@ -67,6 +67,4 @@ adminSchema.methods.correctPassword = async function (
     return await bcrypt.compare(candidatePassword, adminPassword);
 };
 
-const Admin = mongoose.model('Admin', adminSchema);
-
-module.exports = Admin;
+module.exports = new mongoose.model('Admin', adminSchema);

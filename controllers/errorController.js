@@ -1,13 +1,21 @@
 module.exports = (error, req, res, next) => {
     // console.log(error);
 
+    if (error.code == 11000)
+        return res.status(403).json({
+            status: 'fail',
+            message: `${
+                Object.keys(error.keyPattern)[0]
+            } is already registered.`,
+        });
+
     if (error.name === 'ValidationError') {
         let errors = {};
         Object.keys(error.errors).forEach(key => {
             errors[key] = error.errors[key].message;
             // errors[key] = req.t(error.errors[key].message);
         });
-        return res.status(400).send({
+        return res.status(400).json({
             status: 'fail',
             errors,
         });
@@ -21,7 +29,7 @@ module.exports = (error, req, res, next) => {
             errors[myKey] = error.message.errors[key].message;
             // errors[myKey] = req.t(error.message.errors[key].message);
         });
-        return res.status(400).send({
+        return res.status(400).json({
             status: 'fail',
             errors,
         });
@@ -36,7 +44,7 @@ module.exports = (error, req, res, next) => {
     }
     res.status(error.status || 500).json({
         status: 'fail',
-        message: error.message,
-        // message: req.t(error.message),
+        // message: error.message,
+        message: req.t(error.message),
     });
 };

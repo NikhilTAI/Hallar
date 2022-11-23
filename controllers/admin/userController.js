@@ -22,9 +22,11 @@ exports.viewUser = async (req, res) => {
 
 exports.blockUser = async (req, res) => {
     try {
-        const user = await User.findByIdAndUpdate(req.params.id, {
-            blocked: true,
-        });
+        const user = await User.findByIdAndUpdate(
+            req.params.id,
+            { blocked: true },
+            { strict: false }
+        );
         req.flash('green', `'${user.name}' blocked successfully.`);
         res.redirect('/user');
     } catch (error) {
@@ -40,9 +42,11 @@ exports.blockUser = async (req, res) => {
 
 exports.unblockUser = async (req, res) => {
     try {
-        const user = await User.findByIdAndUpdate(req.params.id, {
-            blocked: false,
-        });
+        const user = await User.findByIdAndUpdate(
+            req.params.id,
+            { blocked: false },
+            { strict: false }
+        );
         req.flash('green', `'${user.name}' unblocked successfully.`);
         res.redirect('/user');
     } catch (error) {

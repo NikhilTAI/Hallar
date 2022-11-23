@@ -26,8 +26,9 @@ exports.postAddSubscription = async (req, res) => {
                     recursive: true,
                 });
 
-            await sharp(req.file.buffer)
-                .toFile(`./public/uploads/subscription/${filename}`);
+            await sharp(req.file.buffer).toFile(
+                `./public/uploads/subscription/${filename}`
+            );
             req.body.image = `/uploads/subscription/${filename}`;
         }
 
@@ -74,8 +75,9 @@ exports.postEditSubscription = async (req, res) => {
                     recursive: true,
                 });
 
-            await sharp(req.file.buffer)
-                .toFile(`./public/uploads/subscription/${filename}`);
+            await sharp(req.file.buffer).toFile(
+                `./public/uploads/subscription/${filename}`
+            );
             req.body.image = `/uploads/subscription/${filename}`;
         }
 

@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
 const validator = require('validator');
+const createError = require('http-errors');
+const jwt = require('jsonwebtoken');
 
 const userSchema = new mongoose.Schema({
     name: {
@@ -31,9 +33,19 @@ const userSchema = new mongoose.Schema({
         type: Boolean,
         default: false,
         select: false,
+        immutable: true,
     },
 });
 
-const User = mongoose.model('User', userSchema);
+// generating tokens
+userSchema.methods.generateAuthToken = async function () {
+    try {
+        return jwt.sign({ _id: this._id.toString() }, process.env.JWT_SECRET, {
+            expiresIn: '90d',
+        });
+    } catch (error) {
+        throw createError.BadRequest(error);
+    }
+};
 
-module.exports = User;
+module.exports = new mongoose.model('User', userSchema);
